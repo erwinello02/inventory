@@ -1,0 +1,12 @@
+
+====================================================================================================
+
+iii  nnn   nnn    vvv     vvv    eeeee     nnn   nnn       ttt       ooooo     rrr    rrr  yyy   yyy
+     nnn nn  nn   vvv     vvv   eee  eee   nnn nn  nn      ttt      ooo  ooo   rrr  rrr    yyy   yyy
+iii  nnnn    nnn  vvv     vvv  eee    eee  nnnn    nnn  ttttttttt  ooo    ooo  rrrrrr       yyy yyy
+iii  nnn     nnn  vvv     vvv  eeeeeeeeee  nnn     nnn     ttt     ooo    ooo  rrr             yyy
+iii  nnn     nnn   vvv   vvv   eee         nnn     nnn     ttt     ooo    ooo  rrr            yyy
+iii  nnn     nnn    vvv vvv     eee  eee   nnn     nnn     ttt      ooo  ooo   rrr      yyy  yyy
+iii  nnn     nnn      vvv        eeeee     nnn     nnn      tttt      ooooo    rrr        yyyyy
+
+==========================================* CORYRIGHT *==============================================

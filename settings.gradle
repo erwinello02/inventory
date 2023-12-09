@@ -1,0 +1,6 @@
+rootProject.name = 'inventory'
+include 'common'
+include 'category'
+include 'product'
+include 'user'
+

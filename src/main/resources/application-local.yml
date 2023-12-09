@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/inventory-local
+    username: postgres
+    password: 12345
+    platform: postgres
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
+      generate-ddl: true
+server:
+  port: 8080
+  ssl.enabled: false
+  servlet:
+    contextPath: /inventory
