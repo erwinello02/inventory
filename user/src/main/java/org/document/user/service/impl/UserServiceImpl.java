@@ -1,8 +1,6 @@
 package org.document.user.service.impl;
 
-import org.document.common.enums.CategoryStatus;
 import org.document.common.enums.UserStatus;
-import org.document.common.model.Category;
 import org.document.common.model.Users;
 import org.document.common.utils.QueryResults;
 import org.document.user.dto.UpdateUserDTO;
@@ -62,7 +60,7 @@ public class UserServiceImpl implements UserService {
         Page<Users> users = userRepository.findAll(pageable);
         Long totalCount = users.getTotalElements();
         List<Users> result = users.stream().collect(Collectors.toList());
-        return new QueryResults(result, totalCount);
+        return new QueryResults<>(result, totalCount);
     }
 
     @Override

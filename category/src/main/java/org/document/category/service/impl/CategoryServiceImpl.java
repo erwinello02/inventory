@@ -60,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
         Page<Category> cat = categoryRepository.findAll(pageable);
         Long totalCount = cat.getTotalElements();
         List<Category> result = cat.stream().collect(Collectors.toList());
-        return new QueryResults(result, totalCount);
+        return new QueryResults<>(result, totalCount);
     }
 
     @Override

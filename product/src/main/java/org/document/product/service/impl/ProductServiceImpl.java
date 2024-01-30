@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> prod = productRepository.findAll(pageable);
         Long totalCount = prod.getTotalElements();
         List<Product> result = prod.stream().collect(Collectors.toList());
-        return new QueryResults(result, totalCount);
+        return new QueryResults<>(result, totalCount);
     }
 
     public Product deactivateProduct(String productUuid) throws Exception{
