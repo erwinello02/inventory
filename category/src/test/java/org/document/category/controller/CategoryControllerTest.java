@@ -1,7 +1,6 @@
 package org.document.category.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.document.category.controller.CategoryController;
 import org.document.category.dto.CategoryDTO;
 import org.document.category.dto.UpdateCategoryDTO;
 import org.document.category.service.CategoryService;

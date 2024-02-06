@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.document.common.model.Category;
 import org.document.common.model.Product;
 import org.document.common.utils.QueryResults;
 import org.document.product.constant.ProductResponseConstants;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import static org.document.common.utils.ResponseCodes.*;
-import static org.document.common.utils.ResponseCodes.RC500R;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -47,9 +45,9 @@ public class ProductController {
                             )}
                     )
                     ,
-                    @ApiResponse(responseCode = RC400, ref = RC400R),
-                    @ApiResponse(responseCode = RC409, ref = RC409R),
-                    @ApiResponse(responseCode = RC500, ref = RC500R)
+                    @ApiResponse(responseCode = RC400),
+                    @ApiResponse(responseCode = RC409),
+                    @ApiResponse(responseCode = RC500)
             }
     )
     @PostMapping("/add")
@@ -72,9 +70,9 @@ public class ProductController {
                             )}
                     )
                     ,
-                    @ApiResponse(responseCode = RC400, ref = RC400R),
-                    @ApiResponse(responseCode = RC409, ref = RC409R),
-                    @ApiResponse(responseCode = RC500, ref = RC500R)
+                    @ApiResponse(responseCode = RC400),
+                    @ApiResponse(responseCode = RC409),
+                    @ApiResponse(responseCode = RC500)
             }
     )
     @PatchMapping("/update")
@@ -97,7 +95,7 @@ public class ProductController {
                                                     implementation = Product.class
                                             )))
                             }),
-                    @ApiResponse(responseCode = RC500, ref = RC500R)
+                    @ApiResponse(responseCode = RC500)
             }
     )
     @GetMapping
@@ -125,9 +123,9 @@ public class ProductController {
                             )}
                     )
                     ,
-                    @ApiResponse(responseCode = RC400, ref = RC400R),
-                    @ApiResponse(responseCode = RC409, ref = RC409R),
-                    @ApiResponse(responseCode = RC500, ref = RC500R)
+                    @ApiResponse(responseCode = RC400),
+                    @ApiResponse(responseCode = RC409),
+                    @ApiResponse(responseCode = RC500)
             }
     )
     @DeleteMapping("/de-activate/{productUuid}")

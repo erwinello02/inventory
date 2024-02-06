@@ -45,9 +45,9 @@ public class UserController {
                             )}
                     )
                     ,
-                    @ApiResponse(responseCode = RC400, ref = RC400R),
-                    @ApiResponse(responseCode = RC409, ref = RC409R),
-                    @ApiResponse(responseCode = RC500, ref = RC500R)
+                    @ApiResponse(responseCode = RC400),
+                    @ApiResponse(responseCode = RC409),
+                    @ApiResponse(responseCode = RC500)
             }
     )
     @PostMapping("/add")
@@ -70,9 +70,9 @@ public class UserController {
                             )}
                     )
                     ,
-                    @ApiResponse(responseCode = RC400, ref = RC400R),
-                    @ApiResponse(responseCode = RC409, ref = RC409R),
-                    @ApiResponse(responseCode = RC500, ref = RC500R)
+                    @ApiResponse(responseCode = RC400),
+                    @ApiResponse(responseCode = RC409),
+                    @ApiResponse(responseCode = RC500)
             }
     )
     @PatchMapping("/update")
@@ -95,7 +95,7 @@ public class UserController {
                                                     implementation = Users.class
                                             )))
                             }),
-                    @ApiResponse(responseCode = RC500, ref = RC500R)
+                    @ApiResponse(responseCode = RC500)
             }
     )
     @GetMapping
@@ -123,9 +123,9 @@ public class UserController {
                             )}
                     )
                     ,
-                    @ApiResponse(responseCode = RC400, ref = RC400R),
-                    @ApiResponse(responseCode = RC409, ref = RC409R),
-                    @ApiResponse(responseCode = RC500, ref = RC500R)
+                    @ApiResponse(responseCode = RC400),
+                    @ApiResponse(responseCode = RC409),
+                    @ApiResponse(responseCode = RC500)
             }
     )
     @DeleteMapping("/de-activate/{userUuid}")

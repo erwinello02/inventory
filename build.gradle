@@ -36,8 +36,10 @@ allprojects {
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 		//lombok
-		implementation 'org.projectlombok:lombok'
-		annotationProcessor 'org.projectlombok:lombok'
+		implementation 'org.projectlombok:lombok:1.18.28'
+		annotationProcessor 'org.projectlombok:lombok:1.18.28'
+		testCompileOnly 'org.projectlombok:lombok:1.18.28'
+		testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
 
 		//postgres
 		implementation 'org.postgresql:postgresql:42.5.4'
@@ -52,7 +54,17 @@ allprojects {
 		// object mapper
     	implementation 'org.modelmapper:modelmapper:3.1.1'
 
-		testImplementation project(":")
+//		testImplementation project(":")
+		//test dependencies
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+		testImplementation 'org.junit.jupiter:junit-jupiter-api'
+		testImplementation 'org.junit.jupiter:junit-jupiter-params'
+
+		testImplementation 'org.mockito:mockito-junit-jupiter'
+		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+		testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
+		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	}
 
@@ -66,14 +78,14 @@ allprojects {
 				srcDir 'src/main/resources'
 			}
 		}
-//		test {
-//			java {
-//				srcDir 'src/main/java'
-//			}
-//			resources {
-//				srcDir 'src/main/resources'
-//			}
-//		}
+		test {
+			java {
+				srcDir 'src/main/java'
+			}
+			resources {
+				srcDir 'src/main/resources'
+			}
+		}
 	}
 
 	tasks.named('test') {
@@ -83,6 +95,12 @@ allprojects {
 
 application {
 	mainClassName = "org.document.inventory.InventoryApp"
+}
+
+
+processResources {
+	duplicatesStrategy = 'include' // or 'exclude' or 'fail'
+	// other configurations...
 }
 
 dependencies {
