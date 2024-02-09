@@ -10,6 +10,8 @@ tasks.withType(BootJar).configureEach {
 dependencies {
     // common module
     implementation project(":common")
+    // user module
+    implementation project(":user")
 }
 
 test {

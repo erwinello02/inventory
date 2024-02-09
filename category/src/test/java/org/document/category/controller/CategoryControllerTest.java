@@ -1,13 +1,22 @@
 package org.document.category.controller;
 
+import static org.mockito.Mockito.when;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Date;
+
 import org.document.category.dto.CategoryDTO;
 import org.document.category.dto.UpdateCategoryDTO;
 import org.document.category.service.CategoryService;
 import org.document.common.enums.CategoryStatus;
 import org.document.common.model.Category;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
@@ -21,13 +30,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDate;
-import java.time.ZoneOffset;
-import java.util.Date;
-
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
-
 @ContextConfiguration(classes = {CategoryController.class})
 @ExtendWith(SpringExtension.class)
 class CategoryControllerTest {
@@ -38,10 +40,12 @@ class CategoryControllerTest {
     private CategoryService categoryService;
 
     /**
-     * Method under test: {@link CategoryController#addCategory(CategoryDTO)}
+     * Method under test:
+     * {@link CategoryController#addCategory(String, CategoryDTO)}
      */
     @Test
     void testAddCategory() throws Exception {
+        // Arrange
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
@@ -53,7 +57,7 @@ class CategoryControllerTest {
         category.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
         category.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setStatus(CategoryStatus.ACTIVE);
-        when(categoryService.addCategory((CategoryDTO) any())).thenReturn(category);
+        when(categoryService.addCategory(Mockito.<String>any(), Mockito.<CategoryDTO>any())).thenReturn(category);
 
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCode("Code");
@@ -61,11 +65,16 @@ class CategoryControllerTest {
         categoryDTO.setImage("Image");
         String content = (new ObjectMapper()).writeValueAsString(categoryDTO);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/category/add")
+                .header("X-USER-NAME", "X-USER-NAME")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
+
+        // Act
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(categoryController)
                 .build()
                 .perform(requestBuilder);
+
+        // Assert
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
@@ -77,10 +86,12 @@ class CategoryControllerTest {
     }
 
     /**
-     * Method under test: {@link CategoryController#updateCategory(UpdateCategoryDTO)}
+     * Method under test:
+     * {@link CategoryController#updateCategory(String, UpdateCategoryDTO)}
      */
     @Test
     void testUpdateCategory() throws Exception {
+        // Arrange
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
@@ -90,10 +101,9 @@ class CategoryControllerTest {
         category.setDescription("The characteristics of someone or something");
         category.setImage("Image");
         category.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
-        category
-                .setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
+        category.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setStatus(CategoryStatus.ACTIVE);
-        when(categoryService.updateCategory((UpdateCategoryDTO) any())).thenReturn(category);
+        when(categoryService.updateCategory(Mockito.<String>any(), Mockito.<UpdateCategoryDTO>any())).thenReturn(category);
 
         UpdateCategoryDTO updateCategoryDTO = new UpdateCategoryDTO();
         updateCategoryDTO.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
@@ -103,11 +113,16 @@ class CategoryControllerTest {
         updateCategoryDTO.setStatus(CategoryStatus.ACTIVE);
         String content = (new ObjectMapper()).writeValueAsString(updateCategoryDTO);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/category/update")
+                .header("X-USER-NAME", "X-USER-NAME")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
+
+        // Act
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(categoryController)
                 .build()
                 .perform(requestBuilder);
+
+        // Assert
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
@@ -119,10 +134,12 @@ class CategoryControllerTest {
     }
 
     /**
-     * Method under test: {@link CategoryController#deactivateCategory(String)}
+     * Method under test:
+     * {@link CategoryController#deactivateCategory(String, String)}
      */
     @Test
     void testDeactivateCategory() throws Exception {
+        // Arrange
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
@@ -132,15 +149,19 @@ class CategoryControllerTest {
         category.setDescription("The characteristics of someone or something");
         category.setImage("Image");
         category.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
-        category
-                .setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
+        category.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setStatus(CategoryStatus.ACTIVE);
-        when(categoryService.deactivateCategory((String) any())).thenReturn(category);
+        when(categoryService.deactivateCategory(Mockito.<String>any(), Mockito.<String>any())).thenReturn(category);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/category/de-activate/{categoryUuid}", "01234567-89AB-CDEF-FEDC-BA9876543210");
+                .delete("/category/de-activate/{categoryUuid}", "01234567-89AB-CDEF-FEDC-BA9876543210")
+                .header("X-USER-NAME", "X-USER-NAME");
+
+        // Act
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(categoryController)
                 .build()
                 .perform(requestBuilder);
+
+        // Assert
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
@@ -152,26 +173,23 @@ class CategoryControllerTest {
     }
 
     /**
-     * Method under test: {@link CategoryController#getCategories(int, int, Sort.Direction)}
+     * Method under test:
+     * {@link CategoryController#getCategories(String, int, int, Sort.Direction)}
      */
     @Test
-//    @Disabled("TODO: Complete this test")
+    @Disabled("TODO: Complete this test")
     void testGetCategories() throws Exception {
         // TODO: Complete this test.
         //   Diffblue AI was unable to find a test
 
         // Arrange
         // TODO: Populate arranged inputs
-        Object[] uriVariables = new Object[]{};
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/category", uriVariables);
-        String[] values = new String[]{String.valueOf(1)};
-        MockHttpServletRequestBuilder paramResult = getResult.param("pageNumber", values);
-        String[] values1 = new String[]{String.valueOf(1)};
-        MockHttpServletRequestBuilder paramResult1 = paramResult.param("pageSize", values1);
-        String[] values2 = new String[]{String.valueOf(Sort.Direction.ASC)};
-        MockHttpServletRequestBuilder requestBuilder = paramResult1.param("sort", values2);
-        Object[] controllers = new Object[]{categoryController};
-        MockMvc buildResult = MockMvcBuilders.standaloneSetup(controllers).build();
+        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/category");
+        MockHttpServletRequestBuilder paramResult = getResult.param("pageNumber", String.valueOf(1));
+        MockHttpServletRequestBuilder paramResult2 = paramResult.param("pageSize", String.valueOf(1));
+        MockHttpServletRequestBuilder requestBuilder = paramResult2.param("sort", String.valueOf(Sort.Direction.ASC))
+                .header("X-USER-NAME", "X-USER-NAME");
+        MockMvc buildResult = MockMvcBuilders.standaloneSetup(categoryController).build();
 
         // Act
         ResultActions actualPerformResult = buildResult.perform(requestBuilder);
@@ -180,4 +198,3 @@ class CategoryControllerTest {
         // TODO: Add assertions on result
     }
 }
-

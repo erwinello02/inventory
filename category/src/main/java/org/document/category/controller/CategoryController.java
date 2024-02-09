@@ -10,6 +10,7 @@ import org.document.category.dto.CategoryDTO;
 import org.document.category.dto.UpdateCategoryDTO;
 import org.document.category.service.CategoryService;
 import org.document.common.model.Category;
+import org.document.common.utils.Headers;
 import org.document.common.utils.QueryResults;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,9 +52,12 @@ public class CategoryController {
             }
     )
     @PostMapping("/add")
-    public ResponseEntity<Category> addCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws Exception {
-        logger.debug("Adding a category into category table");
-        Category result = categoryService.addCategory(categoryDTO);
+    public ResponseEntity<Category> addCategory(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @RequestBody CategoryDTO categoryDTO
+    ) throws Exception {
+        logger.info("Adding a category into category table");
+        Category result = categoryService.addCategory(userName, categoryDTO);
         return ResponseEntity.status(201).body(result);
     }
 
@@ -76,9 +80,12 @@ public class CategoryController {
             }
     )
     @PatchMapping("/update")
-    public ResponseEntity<Category> updateCategory(@Valid @RequestBody UpdateCategoryDTO updateCategoryDTO) throws Exception {
-        logger.debug("Updating a category into category table");
-        Category result = categoryService.updateCategory(updateCategoryDTO);
+    public ResponseEntity<Category> updateCategory(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @RequestBody UpdateCategoryDTO updateCategoryDTO
+    ) throws Exception {
+        logger.info("Updating a category into category table");
+        Category result = categoryService.updateCategory(userName, updateCategoryDTO);
         return ResponseEntity.status(201).body(result);
     }
 
@@ -100,13 +107,14 @@ public class CategoryController {
     )
     @GetMapping
     public ResponseEntity<QueryResults<Category>> getCategories(
+            @RequestHeader(Headers.USERNAME) String userName,
             @RequestParam int pageNumber,
             @RequestParam int pageSize,
             @RequestParam(defaultValue = "DESC") Sort.Direction sort
     ) throws Exception {
-        logger.debug("Fetching categories from Category table");
-        QueryResults<Category> categories = categoryService.getCategories(pageNumber, pageSize, sort);
-        logger.debug("Categories retrieved");
+        logger.info("Fetching categories from Category table");
+        QueryResults<Category> categories = categoryService.getCategories(userName, pageNumber, pageSize, sort);
+        logger.info("Categories retrieved");
         return ResponseEntity.status(200).body(categories);
     }
 
@@ -129,9 +137,12 @@ public class CategoryController {
             }
     )
     @DeleteMapping("/de-activate/{categoryUuid}")
-    public ResponseEntity<Category> deactivateCategory(@Valid @PathVariable String categoryUuid) throws Exception {
-        logger.debug("De-activate a category into category table");
-        Category result = categoryService.deactivateCategory(categoryUuid);
+    public ResponseEntity<Category> deactivateCategory(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @PathVariable String categoryUuid
+    ) throws Exception {
+        logger.info("De-activate a category into category table");
+        Category result = categoryService.deactivateCategory(userName, categoryUuid);
         return ResponseEntity.status(201).body(result);
     }
 }

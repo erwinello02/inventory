@@ -24,6 +24,12 @@ public class Users extends Auditable<String> implements Serializable {
     @Column(name = "user_uuid")
     private String userUuid;
 
+    @Column(name = "user_name")
+    private String userName;
+
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "first_name")
     private String firstName;
 

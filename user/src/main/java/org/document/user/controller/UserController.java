@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.document.common.model.Users;
+import org.document.common.utils.Headers;
 import org.document.common.utils.QueryResults;
 import org.document.user.constant.UserResponseConstants;
 import org.document.user.dto.UpdateUserDTO;
@@ -51,9 +52,12 @@ public class UserController {
             }
     )
     @PostMapping("/add")
-    public ResponseEntity<Users> addUser(@Valid @RequestBody UserDTO userDTO) throws Exception {
-        logger.debug("Adding a user into Users table");
-        Users result = userService.addUser(userDTO);
+    public ResponseEntity<Users> addUser(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @RequestBody UserDTO userDTO
+    ) throws Exception {
+        logger.info("Adding a user into Users table");
+        Users result = userService.addUser(userName, userDTO);
         return ResponseEntity.status(201).body(result);
     }
 
@@ -76,9 +80,12 @@ public class UserController {
             }
     )
     @PatchMapping("/update")
-    public ResponseEntity<Users> updateUser(@Valid @RequestBody UpdateUserDTO updateUserDTO) throws Exception {
-        logger.debug("Updating a user into Users table");
-        Users result = userService.updateUser(updateUserDTO);
+    public ResponseEntity<Users> updateUser(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @RequestBody UpdateUserDTO updateUserDTO
+    ) throws Exception {
+        logger.info("Updating a user into Users table");
+        Users result = userService.updateUser(userName, updateUserDTO);
         return ResponseEntity.status(201).body(result);
     }
 
@@ -100,13 +107,14 @@ public class UserController {
     )
     @GetMapping
     public ResponseEntity<QueryResults<Users>> getUsers(
+            @RequestHeader(Headers.USERNAME) String userName,
             @RequestParam int pageNumber,
             @RequestParam int pageSize,
             @RequestParam(defaultValue = "DESC") Sort.Direction sort
     ) throws Exception {
-        logger.debug("Fetching users from Users table");
-        QueryResults<Users> users = userService.getUsers(pageNumber, pageSize, sort);
-        logger.debug("Users retrieved");
+        logger.info("Fetching users from Users table");
+        QueryResults<Users> users = userService.getUsers(userName, pageNumber, pageSize, sort);
+        logger.info("Users retrieved");
         return ResponseEntity.status(200).body(users);
     }
 
@@ -129,9 +137,12 @@ public class UserController {
             }
     )
     @DeleteMapping("/de-activate/{userUuid}")
-    public ResponseEntity<Users> deactivateUser(@Valid @PathVariable String userUuid) throws Exception {
-        logger.debug("De-activate a user into Users table");
-        Users result = userService.deactivateUser(userUuid);
+    public ResponseEntity<Users> deactivateUser(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @PathVariable String userUuid
+    ) throws Exception {
+        logger.info("De-activate a user into Users table");
+        Users result = userService.deactivateUser(userName, userUuid);
         return ResponseEntity.status(201).body(result);
     }
 }

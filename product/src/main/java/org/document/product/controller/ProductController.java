@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.document.common.model.Product;
+import org.document.common.utils.Headers;
 import org.document.common.utils.QueryResults;
 import org.document.product.constant.ProductResponseConstants;
 import org.document.product.dto.ProductDTO;
@@ -51,9 +52,12 @@ public class ProductController {
             }
     )
     @PostMapping("/add")
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDTO productDTO) throws Exception {
-        logger.debug("Adding a product into product table");
-        Product result = productService.addProduct(productDTO);
+    public ResponseEntity<Product> addProduct(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @RequestBody ProductDTO productDTO
+    ) throws Exception {
+        logger.info("Adding a product into product table");
+        Product result = productService.addProduct(userName, productDTO);
         return ResponseEntity.status(201).body(result);
     }
 
@@ -76,9 +80,12 @@ public class ProductController {
             }
     )
     @PatchMapping("/update")
-    public ResponseEntity<Product> updateProduct(@Valid @RequestBody UpdateProductDTO updateProductDTO) throws Exception {
-        logger.debug("Updating a product into product table");
-        Product result = productService.updateProduct(updateProductDTO);
+    public ResponseEntity<Product> updateProduct(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @RequestBody UpdateProductDTO updateProductDTO
+    ) throws Exception {
+        logger.info("Updating a product into product table");
+        Product result = productService.updateProduct(userName, updateProductDTO);
         return ResponseEntity.status(201).body(result);
     }
 
@@ -100,13 +107,14 @@ public class ProductController {
     )
     @GetMapping
     public ResponseEntity<QueryResults<Product>> getProducts(
+            @RequestHeader(Headers.USERNAME) String userName,
             @RequestParam int pageNumber,
             @RequestParam int pageSize,
             @RequestParam(defaultValue = "DESC") Sort.Direction sort
     ) throws Exception {
-        logger.debug("Fetching products from Product table");
-        QueryResults<Product> products = productService.getProducts(pageNumber, pageSize, sort);
-        logger.debug("Products retrieved");
+        logger.info("Fetching products from Product table");
+        QueryResults<Product> products = productService.getProducts(userName, pageNumber, pageSize, sort);
+        logger.info("Products retrieved");
         return ResponseEntity.status(200).body(products);
     }
 
@@ -129,9 +137,12 @@ public class ProductController {
             }
     )
     @DeleteMapping("/de-activate/{productUuid}")
-    public ResponseEntity<Product> deactivateProduct(@Valid @PathVariable String productUuid) throws Exception {
-        logger.debug("De-activate a product into product table");
-        Product result = productService.deactivateProduct(productUuid);
+    public ResponseEntity<Product> deactivateProduct(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @Valid @PathVariable String productUuid
+    ) throws Exception {
+        logger.info("De-activate a product into product table");
+        Product result = productService.deactivateProduct(userName, productUuid);
         return ResponseEntity.status(201).body(result);
     }
 }

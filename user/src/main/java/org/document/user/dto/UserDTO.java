@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.document.common.enums.Gender;
-import java.time.Instant;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -14,6 +14,8 @@ public class UserDTO {
     private String middleName;
     private String lastName;
     private Long age;
-    private Instant dob;
+    private Date dob;
     private Gender gender;
+    private String userName;
+    private String email;
 }

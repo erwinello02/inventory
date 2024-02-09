@@ -16,6 +16,11 @@ public class UserValidation {
             throw new IllegalAccessException(USR004);
         } else if(userDTO.getGender() == null){
             throw new IllegalAccessException(USR005);
+        } else if(userDTO.getUserName() == null){
+            throw new IllegalAccessException(USR007);
+        } else if(userDTO.getEmail() == null){
+            throw new IllegalAccessException(USR008);
         }
+
     }
 }

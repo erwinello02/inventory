@@ -6,12 +6,22 @@ import org.document.common.model.Product;
 import org.document.common.utils.Utils;
 import org.document.product.dto.ProductDTO;
 
+import java.time.Instant;
+import java.util.Date;
+
 public class ProductBuilder {
     public static Product addProductBuilder(
+            String userName,
             ProductDTO productDTO,
             Category category
     ) throws Exception{
-        Product product = new Product();;
+        Product product = new Product();
+        // Auditable details
+        product.setCreatedBy(userName);
+        product.setCreationDate(Date.from(Instant.now()));
+        product.setLastModifiedBy(userName);
+        product.setLastModifiedDate(Date.from(Instant.now()));
+        // Product details
         product.setProductUuid(Utils.getGeneratedUuid());
         product.setProductName(productDTO.getProductName());
         product.setCategory(category);

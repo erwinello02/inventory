@@ -12,4 +12,6 @@ dependencies {
     implementation project(":common")
     // category module
     implementation project(":category")
+    // user module
+    implementation project(":user")
 }

@@ -7,8 +7,8 @@ import org.document.product.dto.UpdateProductDTO;
 import org.springframework.data.domain.Sort;
 
 public interface ProductService {
-    Product addProduct(ProductDTO productDTO) throws Exception;
-    Product updateProduct(UpdateProductDTO updateProductDTO) throws Exception;
-    QueryResults<Product> getProducts(int pageNumber, int pageSize, Sort.Direction sort) throws Exception;
-    Product deactivateProduct(String productUuid) throws Exception;
+    Product addProduct(String userName, ProductDTO productDTO) throws Exception;
+    Product updateProduct(String userName, UpdateProductDTO updateProductDTO) throws Exception;
+    QueryResults<Product> getProducts(String userName, int pageNumber, int pageSize, Sort.Direction sort) throws Exception;
+    Product deactivateProduct(String userName, String productUuid) throws Exception;
 }

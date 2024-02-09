@@ -4,12 +4,18 @@ import org.document.common.model.Category;
 import org.document.common.model.Product;
 import org.document.product.dto.UpdateProductDTO;
 
+import java.time.Instant;
+import java.util.Date;
+
 public class ProductCondition {
     public static Product updateProductCondition(
+            String userName,
             UpdateProductDTO updateProductDTO,
             Category category,
             Product product
     ) throws Exception {
+        product.setLastModifiedBy(userName);
+        product.setLastModifiedDate(Date.from(Instant.now()));
         if(updateProductDTO.getProductName() != null){
             product.setProductName(updateProductDTO.getProductName());
         }

@@ -40,5 +40,11 @@ public class ErrorCodes {
     public static String USR006(String userUuid) {
         return "[USR006] Expected to find at least one category with user uuid "+ userUuid +" but found none.";
     }
+    public static String USR007 = "[USR005] Username must not null";
+    public static String USR008 = "[USR005] Email must not null";
+
+    public static String USR009(String userName) {
+        return "[USR009] No user found for this username: "+ userName;
+    }
 
 }

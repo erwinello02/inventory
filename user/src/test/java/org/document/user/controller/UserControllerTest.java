@@ -1,6 +1,5 @@
 package org.document.user.controller;
 
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +17,7 @@ import org.document.user.service.UserService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
@@ -41,7 +41,7 @@ class UserControllerTest {
     private UserService userService;
 
     /**
-     * Method under test: {@link UserController#addUser(UserDTO)}
+     * Method under test: {@link UserController#addUser(String, UserDTO)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -63,26 +63,33 @@ class UserControllerTest {
         //       at com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:3821)
         //   See https://diff.blue/R013 to resolve this issue.
 
+        // Arrange
         MockHttpServletRequestBuilder contentTypeResult = MockMvcRequestBuilders.post("/user/add")
+                .header("X-USER-NAME", "X-USER-NAME")
                 .contentType(MediaType.APPLICATION_JSON);
-        UserDTO value = new UserDTO("Jane", "Middle Name", "Doe", 1L,
-                LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant(), Gender.MALE);
 
+        ObjectMapper objectMapper = new ObjectMapper();
         MockHttpServletRequestBuilder requestBuilder = contentTypeResult
-                .content((new ObjectMapper()).writeValueAsString(value));
+                .content(objectMapper.writeValueAsString(new UserDTO("Jane", "Middle Name", "Doe", 1L,
+                        Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()), Gender.MALE, "janedoe",
+                        "jane.doe@example.org")));
+
+        // Act
         MockMvcBuilders.standaloneSetup(userController).build().perform(requestBuilder);
     }
 
     /**
-     * Method under test: {@link UserController#deactivateUser(String)}
+     * Method under test: {@link UserController#deactivateUser(String, String)}
      */
     @Test
     void testDeactivateUser() throws Exception {
+        // Arrange
         Users users = new Users();
         users.setAge(1L);
         users.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         users.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         users.setDob(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant());
+        users.setEmail("jane.doe@example.org");
         users.setFirstName("Jane");
         users.setGender(Gender.MALE);
         users.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
@@ -91,25 +98,30 @@ class UserControllerTest {
         users.setMiddleName("Middle Name");
         users.setStatus(UserStatus.ACTIVE);
         users.setUserId(1L);
+        users.setUserName("janedoe");
         users.setUserUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
-        when(userService.deactivateUser((String) any())).thenReturn(users);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/user/de-activate/{userUuid}",
-                "01234567-89AB-CDEF-FEDC-BA9876543210");
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(userController)
-                .build()
-                .perform(requestBuilder);
+        when(userService.deactivateUser(Mockito.<String>any(), Mockito.<String>any())).thenReturn(users);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete("/user/de-activate/{userUuid}", "01234567-89AB-CDEF-FEDC-BA9876543210")
+                .header("X-USER-NAME", "X-USER-NAME");
+
+        // Act
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(userController).build().perform(requestBuilder);
+
+        // Assert
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
                                 "{\"createdBy\":\"Jan 1, 2020 8:00am GMT+0100\",\"creationDate\":0,\"lastModifiedBy\":\"Jan 1, 2020 9:00am"
-                                        + " GMT+0100\",\"lastModifiedDate\":0,\"userId\":1,\"userUuid\":\"01234567-89AB-CDEF-FEDC-BA9876543210\",\"firstName"
-                                        + "\":\"Jane\",\"middleName\":\"Middle Name\",\"lastName\":\"Doe\",\"age\":1,\"dob\":0.0,\"gender\":\"MALE\",\"status\":"
-                                        + "\"ACTIVE\"}"));
+                                        + " GMT+0100\",\"lastModifiedDate\":0,\"userId\":1,\"userUuid\":\"01234567-89AB-CDEF-FEDC-BA9876543210\",\"userName"
+                                        + "\":\"janedoe\",\"email\":\"jane.doe@example.org\",\"firstName\":\"Jane\",\"middleName\":\"Middle Name\",\"lastName\":"
+                                        + "\"Doe\",\"age\":1,\"dob\":0.0,\"gender\":\"MALE\",\"status\":\"ACTIVE\"}"));
     }
 
     /**
-     * Method under test: {@link UserController#getUsers(int, int, Sort.Direction)}
+     * Method under test:
+     * {@link UserController#getUsers(String, int, int, Sort.Direction)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -119,16 +131,12 @@ class UserControllerTest {
 
         // Arrange
         // TODO: Populate arranged inputs
-        Object[] uriVariables = new Object[]{};
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/user", uriVariables);
-        String[] values = new String[]{String.valueOf(1)};
-        MockHttpServletRequestBuilder paramResult = getResult.param("pageNumber", values);
-        String[] values1 = new String[]{String.valueOf(1)};
-        MockHttpServletRequestBuilder paramResult1 = paramResult.param("pageSize", values1);
-        String[] values2 = new String[]{String.valueOf(Sort.Direction.ASC)};
-        MockHttpServletRequestBuilder requestBuilder = paramResult1.param("sort", values2);
-        Object[] controllers = new Object[]{userController};
-        MockMvc buildResult = MockMvcBuilders.standaloneSetup(controllers).build();
+        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/user");
+        MockHttpServletRequestBuilder paramResult = getResult.param("pageNumber", String.valueOf(1));
+        MockHttpServletRequestBuilder paramResult2 = paramResult.param("pageSize", String.valueOf(1));
+        MockHttpServletRequestBuilder requestBuilder = paramResult2.param("sort", String.valueOf(Sort.Direction.ASC))
+                .header("X-USER-NAME", "X-USER-NAME");
+        MockMvc buildResult = MockMvcBuilders.standaloneSetup(userController).build();
 
         // Act
         ResultActions actualPerformResult = buildResult.perform(requestBuilder);
@@ -138,7 +146,7 @@ class UserControllerTest {
     }
 
     /**
-     * Method under test: {@link UserController#updateUser(UpdateUserDTO)}
+     * Method under test: {@link UserController#updateUser(String, UpdateUserDTO)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -160,21 +168,23 @@ class UserControllerTest {
         //       at com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:3821)
         //   See https://diff.blue/R013 to resolve this issue.
 
-        MockHttpServletRequestBuilder contentTypeResult = MockMvcRequestBuilders.patch("/user/update")
-                .contentType(MediaType.APPLICATION_JSON);
-
+        // Arrange
         UpdateUserDTO updateUserDTO = new UpdateUserDTO();
         updateUserDTO.setAge(1L);
-        updateUserDTO.setDob(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant());
+        updateUserDTO.setDob(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         updateUserDTO.setFirstName("Jane");
         updateUserDTO.setGender(Gender.MALE);
         updateUserDTO.setLastName("Doe");
         updateUserDTO.setMiddleName("Middle Name");
         updateUserDTO.setStatus(UserStatus.ACTIVE);
         updateUserDTO.setUserUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
-        MockHttpServletRequestBuilder requestBuilder = contentTypeResult
-                .content((new ObjectMapper()).writeValueAsString(updateUserDTO));
+        String content = (new ObjectMapper()).writeValueAsString(updateUserDTO);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/user/update")
+                .header("X-USER-NAME", "X-USER-NAME")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+
+        // Act
         MockMvcBuilders.standaloneSetup(userController).build().perform(requestBuilder);
     }
 }
-

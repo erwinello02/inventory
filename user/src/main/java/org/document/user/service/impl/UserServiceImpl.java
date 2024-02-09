@@ -19,11 +19,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.document.common.utils.ErrorCodes.USR006;
+import static org.document.common.utils.ErrorCodes.USR009;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public Users addUser(UserDTO userDTO) throws Exception {
+    public Users addUser(String userName, UserDTO userDTO) throws Exception {
         Instant createUserStart = Instant.now();
         UserValidation.addUserValidation(userDTO);
         Users addUser = UserBuilder.addUserBuilder(userDTO);
@@ -44,19 +46,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users updateUser(UpdateUserDTO updateUserDTO) throws Exception {
+    public Users updateUser(String userName, UpdateUserDTO updateUserDTO) throws Exception {
         Instant updateUserStart = Instant.now();
         Users user = userRepository.findByUserUuid(updateUserDTO.getUserUuid())
                 .orElseThrow(() -> new IllegalArgumentException(USR006(updateUserDTO.getUserUuid())));
-        Users updateUser = UserCondition.updateUserCondition(updateUserDTO, user);
+        Users updateUser = UserCondition.updateUserCondition(userName, updateUserDTO, user);
         Users saveUpdateUser = userRepository.save(updateUser);
         logger.info("UpdateUserStart" + updateUserStart);
         return saveUpdateUser;
     }
 
     @Override
-    public QueryResults<Users> getUsers(int pageNumber, int pageSize, Sort.Direction sort) throws Exception {
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(sort, "firstName"));
+    public QueryResults<Users> getUsers(String userName, int pageNumber, int pageSize, Sort.Direction sort) throws Exception {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by(sort, "lastModifiedDate"));
+        userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException(USR009(userName)));
         Page<Users> users = userRepository.findAll(pageable);
         Long totalCount = users.getTotalElements();
         List<Users> result = users.stream().collect(Collectors.toList());
@@ -64,11 +67,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users deactivateUser(String userUuid) throws Exception {
+    public Users deactivateUser(String userName, String userUuid) throws Exception {
         Instant deactivateUserStart = Instant.now();
+        userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException(USR009(userName)));
         Users user = userRepository.findByUserUuid(userUuid)
                 .orElseThrow(() -> new IllegalArgumentException(USR006(userUuid)));
         user.setStatus(UserStatus.DEACTIVATE);
+        user.setLastModifiedDate(Date.from(Instant.now()));
+        user.setLastModifiedBy(userName);
         Users deactivateUser = userRepository.save(user);
         logger.info("DeactivateUserStart" + deactivateUserStart);
         return deactivateUser;

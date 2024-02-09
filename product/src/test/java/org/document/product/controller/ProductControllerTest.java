@@ -1,7 +1,5 @@
 package org.document.product.controller;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,13 +12,13 @@ import org.document.common.enums.CategoryStatus;
 import org.document.common.enums.ProductStatus;
 import org.document.common.model.Category;
 import org.document.common.model.Product;
-import org.document.product.controller.ProductController;
 import org.document.product.dto.ProductDTO;
 import org.document.product.dto.UpdateProductDTO;
 import org.document.product.service.ProductService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
@@ -44,7 +42,7 @@ class ProductControllerTest {
     private ProductService productService;
 
     /**
-     * Method under test: {@link ProductController#addProduct(ProductDTO)}
+     * Method under test: {@link ProductController#addProduct(String, ProductDTO)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -73,49 +71,21 @@ class ProductControllerTest {
         //       at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
         //   See https://diff.blue/R013 to resolve this issue.
 
+        // Arrange
         ProductController productController = new ProductController();
-        productController.addProduct(new ProductDTO("Product Name", 1L, "Sub Category", 1L, "Stock", "Minimum Qty",
-                "Quantity", "The characteristics of someone or something", 1L, 3L, 1L, "Image"));
+
+        // Act
+        productController.addProduct("janedoe", new ProductDTO("Product Name", 1L, "Sub Category", 1L, "Stock",
+                "Minimum Qty", "Quantity", "The characteristics of someone or something", 1L, 3L, 1L, "Image"));
     }
 
     /**
-     * Method under test: {@link ProductController#addProduct(ProductDTO)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testAddProduct2() throws Exception {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   org.springframework.http.converter.HttpMessageConversionException: Type definition error: [simple type, class org.document.product.dto.ProductDTO]; nested exception is com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.document.product.dto.ProductDTO` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
-        //    at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 2]
-        //       at javax.servlet.http.HttpServlet.service(HttpServlet.java:696)
-        //       at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
-        //   com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of `org.document.product.dto.ProductDTO` (no Creators, like default constructor, exist): cannot deserialize from Object value (no delegate- or property-based Creator)
-        //    at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 2]
-        //       at com.fasterxml.jackson.databind.exc.InvalidDefinitionException.from(InvalidDefinitionException.java:67)
-        //       at com.fasterxml.jackson.databind.DeserializationContext.reportBadDefinition(DeserializationContext.java:1904)
-        //       at com.fasterxml.jackson.databind.DatabindContext.reportBadDefinition(DatabindContext.java:400)
-        //       at com.fasterxml.jackson.databind.DeserializationContext.handleMissingInstantiator(DeserializationContext.java:1349)
-        //       at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromObjectUsingNonDefault(BeanDeserializerBase.java:1415)
-        //       at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:352)
-        //       at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:185)
-        //       at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:323)
-        //       at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4674)
-        //       at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3682)
-        //       at javax.servlet.http.HttpServlet.service(HttpServlet.java:696)
-        //       at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        (new ProductController()).addProduct(mock(ProductDTO.class));
-    }
-
-    /**
-     * Method under test: {@link ProductController#updateProduct(UpdateProductDTO)}
+     * Method under test:
+     * {@link ProductController#updateProduct(String, UpdateProductDTO)}
      */
     @Test
     void testUpdateProduct() throws Exception {
+        // Arrange
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
@@ -125,8 +95,7 @@ class ProductControllerTest {
         category.setDescription("The characteristics of someone or something");
         category.setImage("Image");
         category.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
-        category
-                .setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
+        category.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setStatus(CategoryStatus.ACTIVE);
 
         Product product = new Product();
@@ -137,8 +106,7 @@ class ProductControllerTest {
         product.setDiscountType(3L);
         product.setImage("Image");
         product.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
-        product
-                .setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
+        product.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         product.setMinimumQty("Minimum Qty");
         product.setPrice(1L);
         product.setProductId(1L);
@@ -150,7 +118,7 @@ class ProductControllerTest {
         product.setSubCategory("Sub Category");
         product.setTax(1L);
         product.setUnit(1L);
-        when(productService.updateProduct((UpdateProductDTO) any())).thenReturn(product);
+        when(productService.updateProduct(Mockito.<String>any(), Mockito.<UpdateProductDTO>any())).thenReturn(product);
 
         UpdateProductDTO updateProductDTO = new UpdateProductDTO();
         updateProductDTO.setCategoryId(1L);
@@ -169,11 +137,16 @@ class ProductControllerTest {
         updateProductDTO.setUnit(1L);
         String content = (new ObjectMapper()).writeValueAsString(updateProductDTO);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/product/update")
+                .header("X-USER-NAME", "X-USER-NAME")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
+
+        // Act
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(productController)
                 .build()
                 .perform(requestBuilder);
+
+        // Assert
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
@@ -189,10 +162,12 @@ class ProductControllerTest {
     }
 
     /**
-     * Method under test: {@link ProductController#deactivateProduct(String)}
+     * Method under test:
+     * {@link ProductController#deactivateProduct(String, String)}
      */
     @Test
     void testDeactivateProduct() throws Exception {
+        // Arrange
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
@@ -202,8 +177,7 @@ class ProductControllerTest {
         category.setDescription("The characteristics of someone or something");
         category.setImage("Image");
         category.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
-        category
-                .setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
+        category.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setStatus(CategoryStatus.ACTIVE);
 
         Product product = new Product();
@@ -214,8 +188,7 @@ class ProductControllerTest {
         product.setDiscountType(3L);
         product.setImage("Image");
         product.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
-        product
-                .setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
+        product.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         product.setMinimumQty("Minimum Qty");
         product.setPrice(1L);
         product.setProductId(1L);
@@ -227,12 +200,17 @@ class ProductControllerTest {
         product.setSubCategory("Sub Category");
         product.setTax(1L);
         product.setUnit(1L);
-        when(productService.deactivateProduct((String) any())).thenReturn(product);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/product/de-activate/{productUuid}",
-                "01234567-89AB-CDEF-FEDC-BA9876543210");
+        when(productService.deactivateProduct(Mockito.<String>any(), Mockito.<String>any())).thenReturn(product);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete("/product/de-activate/{productUuid}", "01234567-89AB-CDEF-FEDC-BA9876543210")
+                .header("X-USER-NAME", "X-USER-NAME");
+
+        // Act
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(productController)
                 .build()
                 .perform(requestBuilder);
+
+        // Assert
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
@@ -248,7 +226,8 @@ class ProductControllerTest {
     }
 
     /**
-     * Method under test: {@link ProductController#getProducts(int, int, Sort.Direction)}
+     * Method under test:
+     * {@link ProductController#getProducts(String, int, int, Sort.Direction)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -258,16 +237,12 @@ class ProductControllerTest {
 
         // Arrange
         // TODO: Populate arranged inputs
-        Object[] uriVariables = new Object[]{};
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/product", uriVariables);
-        String[] values = new String[]{String.valueOf(1)};
-        MockHttpServletRequestBuilder paramResult = getResult.param("pageNumber", values);
-        String[] values1 = new String[]{String.valueOf(1)};
-        MockHttpServletRequestBuilder paramResult1 = paramResult.param("pageSize", values1);
-        String[] values2 = new String[]{String.valueOf(Sort.Direction.ASC)};
-        MockHttpServletRequestBuilder requestBuilder = paramResult1.param("sort", values2);
-        Object[] controllers = new Object[]{productController};
-        MockMvc buildResult = MockMvcBuilders.standaloneSetup(controllers).build();
+        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/product");
+        MockHttpServletRequestBuilder paramResult = getResult.param("pageNumber", String.valueOf(1));
+        MockHttpServletRequestBuilder paramResult2 = paramResult.param("pageSize", String.valueOf(1));
+        MockHttpServletRequestBuilder requestBuilder = paramResult2.param("sort", String.valueOf(Sort.Direction.ASC))
+                .header("X-USER-NAME", "X-USER-NAME");
+        MockMvc buildResult = MockMvcBuilders.standaloneSetup(productController).build();
 
         // Act
         ResultActions actualPerformResult = buildResult.perform(requestBuilder);
@@ -276,4 +251,3 @@ class ProductControllerTest {
         // TODO: Add assertions on result
     }
 }
-
