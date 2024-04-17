@@ -57,12 +57,14 @@ class CategoryControllerTest {
         category.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
         category.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setStatus(CategoryStatus.ACTIVE);
+        category.setCategoryName("Category");
         when(categoryService.addCategory(Mockito.<String>any(), Mockito.<CategoryDTO>any())).thenReturn(category);
 
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setCode("Code");
         categoryDTO.setDescription("The characteristics of someone or something");
         categoryDTO.setImage("Image");
+        categoryDTO.setCategoryName("Category");
         String content = (new ObjectMapper()).writeValueAsString(categoryDTO);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/category/add")
                 .header("X-USER-NAME", "X-USER-NAME")
@@ -81,7 +83,7 @@ class CategoryControllerTest {
                         .string(
                                 "{\"createdBy\":\"Jan 1, 2020 8:00am GMT+0100\",\"creationDate\":0,\"lastModifiedBy\":\"Jan 1, 2020 9:00am"
                                         + " GMT+0100\",\"lastModifiedDate\":0,\"categoryId\":1,\"categoryUuid\":\"01234567-89AB-CDEF-FEDC-BA9876543210"
-                                        + "\",\"code\":\"Code\",\"description\":\"The characteristics of someone or something\",\"image\":\"Image\",\"status"
+                                        + "\",\"categoryName\":\"Category\",\"code\":\"Code\",\"description\":\"The characteristics of someone or something\",\"image\":\"Image\",\"status"
                                         + "\":\"ACTIVE\"}"));
     }
 
@@ -103,6 +105,7 @@ class CategoryControllerTest {
         category.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
         category.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setStatus(CategoryStatus.ACTIVE);
+        category.setCategoryName("Category");
         when(categoryService.updateCategory(Mockito.<String>any(), Mockito.<UpdateCategoryDTO>any())).thenReturn(category);
 
         UpdateCategoryDTO updateCategoryDTO = new UpdateCategoryDTO();
@@ -111,6 +114,7 @@ class CategoryControllerTest {
         updateCategoryDTO.setDescription("The characteristics of someone or something");
         updateCategoryDTO.setImage("Image");
         updateCategoryDTO.setStatus(CategoryStatus.ACTIVE);
+        updateCategoryDTO.setCategoryName("Category");
         String content = (new ObjectMapper()).writeValueAsString(updateCategoryDTO);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/category/update")
                 .header("X-USER-NAME", "X-USER-NAME")
@@ -129,7 +133,7 @@ class CategoryControllerTest {
                         .string(
                                 "{\"createdBy\":\"Jan 1, 2020 8:00am GMT+0100\",\"creationDate\":0,\"lastModifiedBy\":\"Jan 1, 2020 9:00am"
                                         + " GMT+0100\",\"lastModifiedDate\":0,\"categoryId\":1,\"categoryUuid\":\"01234567-89AB-CDEF-FEDC-BA9876543210"
-                                        + "\",\"code\":\"Code\",\"description\":\"The characteristics of someone or something\",\"image\":\"Image\",\"status"
+                                        + "\",\"categoryName\":\"Category\",\"code\":\"Code\",\"description\":\"The characteristics of someone or something\",\"image\":\"Image\",\"status"
                                         + "\":\"ACTIVE\"}"));
     }
 
@@ -151,6 +155,7 @@ class CategoryControllerTest {
         category.setLastModifiedBy("Jan 1, 2020 9:00am GMT+0100");
         category.setLastModifiedDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setStatus(CategoryStatus.ACTIVE);
+        category.setCategoryName("Category");
         when(categoryService.deactivateCategory(Mockito.<String>any(), Mockito.<String>any())).thenReturn(category);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
                 .delete("/category/de-activate/{categoryUuid}", "01234567-89AB-CDEF-FEDC-BA9876543210")
@@ -168,7 +173,7 @@ class CategoryControllerTest {
                         .string(
                                 "{\"createdBy\":\"Jan 1, 2020 8:00am GMT+0100\",\"creationDate\":0,\"lastModifiedBy\":\"Jan 1, 2020 9:00am"
                                         + " GMT+0100\",\"lastModifiedDate\":0,\"categoryId\":1,\"categoryUuid\":\"01234567-89AB-CDEF-FEDC-BA9876543210"
-                                        + "\",\"code\":\"Code\",\"description\":\"The characteristics of someone or something\",\"image\":\"Image\",\"status"
+                                        + "\",\"categoryName\":\"Category\",\"code\":\"Code\",\"description\":\"The characteristics of someone or something\",\"image\":\"Image\",\"status"
                                         + "\":\"ACTIVE\"}"));
     }
 

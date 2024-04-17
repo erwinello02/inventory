@@ -22,6 +22,7 @@ public class CategoryBuilder {
         category.setImage(categoryDTO.getImage());
         category.setDescription(categoryDTO.getDescription());
         category.setStatus(CategoryStatus.INACTIVE);
+        category.setCategoryName(categoryDTO.getCategoryName());
         return category;
     }
 }

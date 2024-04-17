@@ -80,6 +80,13 @@ public class ProductServiceImpl implements ProductService {
         return new QueryResults<>(result, totalCount);
     }
 
+    @Override
+    public Product getProductByUuid(String userName, String productUuid) throws Exception {
+        userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException(USR009(userName)));
+        return productRepository.findByProductUuid(productUuid)
+                .orElseThrow(() -> new IllegalArgumentException(PRD013(productUuid)));
+    }
+
     public Product deactivateProduct(String userName, String productUuid) throws Exception{
         Instant deactivateProductStart = Instant.now();
         userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException(USR009(userName)));

@@ -11,4 +11,7 @@ public interface CategoryService {
     Category updateCategory(String userName, UpdateCategoryDTO updateCategoryDTO) throws Exception;
     QueryResults<Category> getCategories(String userName, int pageNumber, int pageSize, Sort.Direction sort) throws Exception;
     Category deactivateCategory(String userName, String categoryUuid) throws Exception;
+
+    Category getCategoryByUuid(String userName, String categoryUuid) throws Exception;
+
 }

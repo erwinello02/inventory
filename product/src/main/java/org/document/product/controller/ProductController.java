@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import static org.document.common.utils.ResponseCodes.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/product", produces = APPLICATION_JSON_VALUE)
 public class ProductController {
@@ -117,6 +118,34 @@ public class ProductController {
         logger.info("Products retrieved");
         return ResponseEntity.status(200).body(products);
     }
+
+    @Operation(
+            summary = "Get product by uuid",
+            responses = {
+                    @ApiResponse(
+                            responseCode = RC200,
+                            description = ProductResponseConstants.GET_PRODUCT_SUCCESS,
+                            content = {@Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(
+                                            schema = @Schema(
+                                                    implementation = Product.class
+                                            )))
+                            }),
+                    @ApiResponse(responseCode = RC500)
+            }
+    )
+    @GetMapping("/{productUuid}")
+    public ResponseEntity<Product> getProductByUuid(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @PathVariable String productUuid
+    ) throws Exception {
+        logger.info("Fetching product from Product table");
+        Product product = productService.getProductByUuid(userName, productUuid);
+        logger.info("Products retrieved");
+        return ResponseEntity.status(200).body(product);
+    }
+
 
     @Operation(
             summary = "De-activate product",

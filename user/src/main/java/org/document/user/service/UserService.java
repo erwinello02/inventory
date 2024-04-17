@@ -10,5 +10,7 @@ public interface UserService {
     Users addUser(String userName, UserDTO userDTO) throws Exception;
     Users updateUser(String userName, UpdateUserDTO updateUserDTO) throws Exception;
     QueryResults<Users> getUsers(String userName, int pageNumber, int pageSize, Sort.Direction sort) throws Exception;
+
+    Users getUserByUuid(String userName, String userUuid) throws Exception;
     Users deactivateUser(String userName, String userUuid) throws Exception;
 }

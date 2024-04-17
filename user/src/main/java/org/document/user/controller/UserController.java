@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import static org.document.common.utils.ResponseCodes.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/user", produces = APPLICATION_JSON_VALUE)
 public class UserController {
@@ -90,7 +91,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Get all category",
+            summary = "Get all user",
             responses = {
                     @ApiResponse(
                             responseCode = RC200,
@@ -115,6 +116,33 @@ public class UserController {
         logger.info("Fetching users from Users table");
         QueryResults<Users> users = userService.getUsers(userName, pageNumber, pageSize, sort);
         logger.info("Users retrieved");
+        return ResponseEntity.status(200).body(users);
+    }
+
+    @Operation(
+            summary = "Get user by uuid",
+            responses = {
+                    @ApiResponse(
+                            responseCode = RC200,
+                            description = UserResponseConstants.GET_USER_SUCCESS,
+                            content = {@Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(
+                                            schema = @Schema(
+                                                    implementation = Users.class
+                                            )))
+                            }),
+                    @ApiResponse(responseCode = RC500)
+            }
+    )
+    @GetMapping("/{userUuid}")
+    public ResponseEntity<Users> getUserByUuid(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @PathVariable String userUuid
+    ) throws Exception {
+        logger.info("Fetching users from Users table");
+        Users users = userService.getUserByUuid(userName, userUuid);
+        logger.info("Users retrieved by uuid");
         return ResponseEntity.status(200).body(users);
     }
 

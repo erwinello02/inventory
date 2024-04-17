@@ -24,8 +24,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.document.common.utils.ErrorCodes.USR006;
-import static org.document.common.utils.ErrorCodes.USR009;
+import static org.document.common.utils.ErrorCodes.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -40,6 +39,9 @@ public class UserServiceImpl implements UserService {
         Instant createUserStart = Instant.now();
         UserValidation.addUserValidation(userDTO);
         Users addUser = UserBuilder.addUserBuilder(userDTO);
+        if(userRepository.findByUserName(addUser.getUserName()).isPresent()){
+            throw new IllegalArgumentException(USR010(addUser.getUserName()));
+        }
         Users saveUser = userRepository.save(addUser);
         logger.info("CreateUserStart" + createUserStart);
         return saveUser;
@@ -64,6 +66,12 @@ public class UserServiceImpl implements UserService {
         Long totalCount = users.getTotalElements();
         List<Users> result = users.stream().collect(Collectors.toList());
         return new QueryResults<>(result, totalCount);
+    }
+
+    @Override
+    public  Users getUserByUuid(String userName, String userUuid) throws Exception {
+        userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException(USR009(userName)));
+        return userRepository.findByUserUuid(userUuid).orElseThrow(() -> new IllegalArgumentException(USR006(userUuid)));
     }
 
     @Override

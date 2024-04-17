@@ -13,6 +13,8 @@ public class ErrorCodes {
     public static String CAT005(String categoryUuid) {
         return "[CAT005] Expected to find at least one category with category uuid "+ categoryUuid +" but found none.";
     }
+    public static String CAT006 = "[CAT003] Category name must not null";
+
     // Product
     public static String PRD001 = "[PRD001] Product name must not null";
     public static String PRD002 = "[PRD002] Product category must not null";
@@ -47,4 +49,5 @@ public class ErrorCodes {
         return "[USR009] No user found for this username: "+ userName;
     }
 
+    public static String USR010(String userName) { return "[USR010] Username "+userName+" is already exist"; }
 }

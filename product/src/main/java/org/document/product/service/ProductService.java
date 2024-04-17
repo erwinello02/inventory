@@ -11,4 +11,7 @@ public interface ProductService {
     Product updateProduct(String userName, UpdateProductDTO updateProductDTO) throws Exception;
     QueryResults<Product> getProducts(String userName, int pageNumber, int pageSize, Sort.Direction sort) throws Exception;
     Product deactivateProduct(String userName, String productUuid) throws Exception;
+
+    Product getProductByUuid(String userName, String productUuid) throws Exception;
+
 }

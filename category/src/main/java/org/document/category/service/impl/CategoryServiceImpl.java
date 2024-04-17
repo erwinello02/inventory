@@ -73,6 +73,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category getCategoryByUuid(String userName, String categoryUuid) throws Exception {
+        userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException(USR009(userName)));
+        return categoryRepository.findByCategoryUuid(categoryUuid)
+                .orElseThrow(() -> new IllegalArgumentException(CAT005(categoryUuid)));
+    }
+
+    @Override
     public Category deactivateCategory(String userName, String categoryUuid) throws Exception{
         Instant deactivateCategoryStart = Instant.now();
         userRepository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException(USR009(userName)));

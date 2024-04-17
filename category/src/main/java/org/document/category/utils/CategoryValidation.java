@@ -12,6 +12,8 @@ public class CategoryValidation {
             throw new IllegalAccessException(CAT002);
         } else if(categoryDTO.getImage() == null){
             throw new IllegalAccessException(CAT003);
+        } else if(categoryDTO.getCategoryName() == null){
+            throw new IllegalAccessException(CAT006);
         }
     }
 }

@@ -12,4 +12,5 @@ public class UpdateCategoryDTO {
     private String description;
     private String image;
     private CategoryStatus status;
+    private String categoryName;
 }

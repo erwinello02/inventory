@@ -25,6 +25,9 @@ public class Category extends Auditable<String> implements Serializable {
     @Column(name = "category_uuid")
     private String categoryUuid;
 
+    @Column(name = "category_name")
+    private String categoryName;
+
     @Column(name = "category_code")
     private String code;
 

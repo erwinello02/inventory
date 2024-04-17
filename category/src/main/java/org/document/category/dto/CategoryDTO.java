@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 @SuperBuilder
 public class CategoryDTO {
     @NotNull
+    private String categoryName;
+    @NotNull
     private String code;
     @NotNull
     private String description;

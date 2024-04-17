@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import static org.document.common.utils.ResponseCodes.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/category", produces = APPLICATION_JSON_VALUE)
 public class CategoryController {
@@ -116,6 +117,33 @@ public class CategoryController {
         QueryResults<Category> categories = categoryService.getCategories(userName, pageNumber, pageSize, sort);
         logger.info("Categories retrieved");
         return ResponseEntity.status(200).body(categories);
+    }
+
+    @Operation(
+            summary = "Get category by uuid",
+            responses = {
+                    @ApiResponse(
+                            responseCode = RC200,
+                            description = CategoryResponseConstants.GET_CATEGORY_SUCCESS,
+                            content = {@Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(
+                                            schema = @Schema(
+                                                    implementation = Category.class
+                                            )))
+                            }),
+                    @ApiResponse(responseCode = RC500)
+            }
+    )
+    @GetMapping("/{categoryUuid}")
+    public ResponseEntity<Category> getCategoryByUuid(
+            @RequestHeader(Headers.USERNAME) String userName,
+            @PathVariable String categoryUuid
+    ) throws Exception {
+        logger.info("Fetching categories from Category table");
+        Category category = categoryService.getCategoryByUuid(userName, categoryUuid);
+        logger.info("Categories retrieved");
+        return ResponseEntity.status(200).body(category);
     }
 
     @Operation(

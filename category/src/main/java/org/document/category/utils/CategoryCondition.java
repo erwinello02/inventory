@@ -26,6 +26,9 @@ public class CategoryCondition {
         if(updateCategoryDTO.getStatus() != null){
             category.setStatus(updateCategoryDTO.getStatus());
         }
+        if(updateCategoryDTO.getCategoryName() != null){
+            category.setCategoryName(updateCategoryDTO.getCategoryName());
+        }
         return category;
     }
 }
