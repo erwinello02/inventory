@@ -56,6 +56,7 @@ class CategoryServiceImplTest {
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        category.setCategoryName("Category");
         category.setCode("Code");
         category.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -86,6 +87,7 @@ class CategoryServiceImplTest {
         when(userRepository.findByUserName(Mockito.<String>any())).thenReturn(ofResult);
 
         CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryName("Category");
         categoryDTO.setCode("Code");
         categoryDTO.setDescription("The characteristics of someone or something");
         categoryDTO.setImage("Image");
@@ -129,6 +131,7 @@ class CategoryServiceImplTest {
         when(userRepository.findByUserName(Mockito.<String>any())).thenReturn(ofResult);
 
         CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryName("Category");
         categoryDTO.setCode("Code");
         categoryDTO.setDescription("The characteristics of someone or something");
         categoryDTO.setImage("Image");
@@ -150,6 +153,7 @@ class CategoryServiceImplTest {
         when(userRepository.findByUserName(Mockito.<String>any())).thenReturn(emptyResult);
 
         CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryName("Category");
         categoryDTO.setCode("Code");
         categoryDTO.setDescription("The characteristics of someone or something");
         categoryDTO.setImage("Image");
@@ -169,6 +173,7 @@ class CategoryServiceImplTest {
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        category.setCategoryName("Category");
         category.setCode("Code");
         category.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -182,6 +187,7 @@ class CategoryServiceImplTest {
         Category category2 = new Category();
         category2.setCategoryId(1L);
         category2.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        category2.setCategoryName("Category");
         category2.setCode("Code");
         category2.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category2.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -215,6 +221,7 @@ class CategoryServiceImplTest {
 
         UpdateCategoryDTO updateCategoryDTO = new UpdateCategoryDTO();
         updateCategoryDTO.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        updateCategoryDTO.setCategoryName("Category");
         updateCategoryDTO.setCode("Code");
         updateCategoryDTO.setDescription("The characteristics of someone or something");
         updateCategoryDTO.setImage("Image");
@@ -240,6 +247,7 @@ class CategoryServiceImplTest {
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        category.setCategoryName("Category");
         category.setCode("Code");
         category.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -274,6 +282,7 @@ class CategoryServiceImplTest {
 
         UpdateCategoryDTO updateCategoryDTO = new UpdateCategoryDTO();
         updateCategoryDTO.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        updateCategoryDTO.setCategoryName("Category");
         updateCategoryDTO.setCode("Code");
         updateCategoryDTO.setDescription("The characteristics of someone or something");
         updateCategoryDTO.setImage("Image");
@@ -318,6 +327,7 @@ class CategoryServiceImplTest {
 
         UpdateCategoryDTO updateCategoryDTO = new UpdateCategoryDTO();
         updateCategoryDTO.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        updateCategoryDTO.setCategoryName("Category");
         updateCategoryDTO.setCode("Code");
         updateCategoryDTO.setDescription("The characteristics of someone or something");
         updateCategoryDTO.setImage("Image");
@@ -470,6 +480,7 @@ class CategoryServiceImplTest {
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        category.setCategoryName("Category");
         category.setCode("Code");
         category.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -483,6 +494,7 @@ class CategoryServiceImplTest {
         Category category2 = new Category();
         category2.setCategoryId(1L);
         category2.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        category2.setCategoryName("Category");
         category2.setCode("Code");
         category2.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category2.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -535,6 +547,7 @@ class CategoryServiceImplTest {
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        category.setCategoryName("Category");
         category.setCode("Code");
         category.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));

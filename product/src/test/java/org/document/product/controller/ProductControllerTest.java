@@ -90,6 +90,7 @@ class ProductControllerTest {
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
         category.setCode("Code");
+        category.setCategoryName("Category");
         category.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
         category.setDescription("The characteristics of someone or something");
@@ -155,7 +156,7 @@ class ProductControllerTest {
                                         + " GMT+0100\",\"lastModifiedDate\":0,\"productId\":1,\"productUuid\":\"01234567-89AB-CDEF-FEDC-BA9876543210\","
                                         + "\"productName\":\"Product Name\",\"category\":{\"createdBy\":\"Jan 1, 2020 8:00am GMT+0100\",\"creationDate\":0,"
                                         + "\"lastModifiedBy\":\"Jan 1, 2020 9:00am GMT+0100\",\"lastModifiedDate\":0,\"categoryId\":1,\"categoryUuid\":"
-                                        + "\"01234567-89AB-CDEF-FEDC-BA9876543210\",\"code\":\"Code\",\"description\":\"The characteristics of someone or"
+                                        + "\"01234567-89AB-CDEF-FEDC-BA9876543210\",\"categoryName\":\"Category\",\"code\":\"Code\",\"description\":\"The characteristics of someone or"
                                         + " something\",\"image\":\"Image\",\"status\":\"ACTIVE\"},\"subCategory\":\"Sub Category\",\"unit\":1,\"stock\":\"Stock\""
                                         + ",\"minimumQty\":\"Minimum Qty\",\"quantity\":\"Quantity\",\"description\":\"The characteristics of someone or"
                                         + " something\",\"tax\":1,\"discountType\":3,\"price\":1,\"status\":\"ACTIVE\",\"image\":\"Image\"}"));
@@ -171,6 +172,7 @@ class ProductControllerTest {
         Category category = new Category();
         category.setCategoryId(1L);
         category.setCategoryUuid("01234567-89AB-CDEF-FEDC-BA9876543210");
+        category.setCategoryName("Category");
         category.setCode("Code");
         category.setCreatedBy("Jan 1, 2020 8:00am GMT+0100");
         category.setCreationDate(Date.from(LocalDate.of(1970, 1, 1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant()));
@@ -219,7 +221,7 @@ class ProductControllerTest {
                                         + " GMT+0100\",\"lastModifiedDate\":0,\"productId\":1,\"productUuid\":\"01234567-89AB-CDEF-FEDC-BA9876543210\","
                                         + "\"productName\":\"Product Name\",\"category\":{\"createdBy\":\"Jan 1, 2020 8:00am GMT+0100\",\"creationDate\":0,"
                                         + "\"lastModifiedBy\":\"Jan 1, 2020 9:00am GMT+0100\",\"lastModifiedDate\":0,\"categoryId\":1,\"categoryUuid\":"
-                                        + "\"01234567-89AB-CDEF-FEDC-BA9876543210\",\"code\":\"Code\",\"description\":\"The characteristics of someone or"
+                                        + "\"01234567-89AB-CDEF-FEDC-BA9876543210\",\"categoryName\":\"Category\",\"code\":\"Code\",\"description\":\"The characteristics of someone or"
                                         + " something\",\"image\":\"Image\",\"status\":\"ACTIVE\"},\"subCategory\":\"Sub Category\",\"unit\":1,\"stock\":\"Stock\""
                                         + ",\"minimumQty\":\"Minimum Qty\",\"quantity\":\"Quantity\",\"description\":\"The characteristics of someone or"
                                         + " something\",\"tax\":1,\"discountType\":3,\"price\":1,\"status\":\"ACTIVE\",\"image\":\"Image\"}"));
